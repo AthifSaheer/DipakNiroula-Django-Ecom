@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Login Form{% endblock %}
+
+{% block content %}
+<style>
+    .errorlist{
+        color: red;
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <h3>Admin Login Form</h3><hr>
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{form.as_p}}
+
+                {% if error %}
+                <li style="color: red;">{{error}}</li>
+                {% endif %}
+                <button class="btn btn-dark">Login</button>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

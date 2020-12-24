@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block title %} Home Page{% endblock %}
+
+
+{% block content %}
+
+<!-----------------------------Slider---------------------------------------------->
+<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+  <div class="carousel-inner" style="width: 100%; height: 300px;" >
+    <div class="carousel-item active">
+      <img src="static/image/234.png" class="d-block w-100" alt="...">
+    </div>
+    <div class="carousel-item">
+      <img src="static/image/678.png" class="d-block w-100" alt="...">
+    </div>
+    <div class="carousel-item">
+      <img src="static/image/678.png" class="d-block w-100" alt="...">
+    </div>
+  </div>
+  <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+<!-----------------------------End Slider---------------------------------------------->
+
+<div class="container">
+    <div class="row mt-4">
+
+        {% for product in products %}
+        <div class="col-md-3 card">
+            <h3><a href="{% url 'Core:product' product.slug %}">{{product.title}}</a></h3>
+            <img src="{{product.image.url}}" class="image-fluid" style="height: 200px; object-fit: cover;" alt="">
+            <p class="mt-3">Price: <strike>Rs. {{product.marked_price}}</strike> Rs. {{product.selling_price}}</p>
+            <a href="{% url 'Core:addtocart' product.id %}" class="btn btn-outline-success">Add To Cart</a>
+        </div>
+        {% endfor %}
+        
+    </div>
+
+    <div class="mt-4">
+        <nav aria-label="...">
+            <ul class="pagination">
+
+                {% if products.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ products.previous_page_number }}" tabindex="-1">Previous</a>
+                  </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1">Previous</a>
+                </li>
+              {% endif %}
+              
+              {% for i in products.paginator.page_range %}
+              {% if i == products.number %}
+              <li class="page-item active"><a class="page-link">{{i}}</a></li>
+              {% else %}
+              <li class="page-item"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+              {% endif %}
+              {% endfor %}
+
+              {% if products.has_next %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{products.next_page_number }}">Next</a>
+              </li>
+              {% endif %}
+            </ul>
+          </nav>
+    </div>
+</div>
+
+
+{% endblock %}

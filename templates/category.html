@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %} Category Page {% endblock %}
+
+
+{% block content %}
+<div class="container">
+    <h2>Items based on categories</h2>
+<hr>
+</div>
+
+
+{% for c in categories %}
+<div class="container">
+<h3 style="color: rgb(255, 115, 0);"><u>{{c.title}}</u></h3>
+
+    <div class="row mt-5 mb-3">
+        {% for product in c.product_set.all %}
+            <div class="col-md-3">
+                <h3><a href="{% url 'Core:product' product.slug %}">{{product.title}}</a></h3>
+                <img src="{{product.image.url}}" style="width: 200px;" alt="">
+                <p class="mt-3">Price: <strike>Rs. {{product.marked_price}}</strike> Rs. {{product.selling_price}}</p>
+                <a href="{% url 'Core:addtocart' product.id %}" class="btn btn-outline-success">Add To Cart</a>
+            </div>
+        {% endfor %}
+    </div>
+
+</div>
+{% endfor %}
+
+{% endblock %}

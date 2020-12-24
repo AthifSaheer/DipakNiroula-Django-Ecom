@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %} Search {% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Search Result for <span class="text-info">"{{request.GET.keyword}}"</span></h3><hr>
+
+            {% for result in results %}
+            <div class="row">
+                <div class="col-md4">
+                    <img src="{{result.image.url}}" class="image-fluid" alt="">
+                </div>
+                <div class="col-md-8">
+                    <h4><a href="{% url 'Core:product' result.slug %}">{{result.title}}</a></h4>
+                    <p>{{result.description | truncatewords:20}}</p>
+                    <p><span class="text-success">Return Policy: </span>{{result.return_Policy}}</p>
+                    <a href="{% url 'Core:addtocart' result.id %}" class="btn btn-outline-success">Add To Cart</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

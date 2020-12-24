@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}MyCart Page{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="col-md-12">
+        <div class="col-md-8">
+            <h4 class="mt-3" style="color: darkblue;">Items in my Cart</h4>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Product</th>
+                        <th>Rate</th>
+                        <th>Quantity</th>
+                        <th>Subtotal</th>
+                        <th>Action</th>
+                      </tr>
+                </thead>
+                <tbody>
+                    {% for cartprdct in cart.cartproduct_set.all %}
+                    <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td>{{cartprdct.product.title}}</td>
+                        <td>₹{{cartprdct.rate}}</td>
+                        <td>{{cartprdct.quantity}}</td>
+                        <td>₹{{cartprdct.subtotal}}</td>
+                        <td>
+                            <a href="{% url 'Core:managecart' cartprdct.id %}?action=inc" class="btn btn-primary"> + </a>
+                            <a href="{% url 'Core:managecart' cartprdct.id %}?action=dcr" class="btn btn-info"> - </a>
+                            <a href="{% url 'Core:managecart' cartprdct.id %}?action=rmv" class="btn btn-warning"> ×</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    <tr>
+                        <th colspan='4' class="text-right">Total</th>
+                        <th>₹{{cart.total}}</th>
+                        {% if cart.cartproduct_set.all %}
+                        <th><a href="{% url 'Core:emptycart' %}">Delete all product in cart</a></th>
+                        {% endif %}
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="container col-md-4">
+            <div class="mb-2">
+                <a class="btn btn-outline-info btn-block" href="{% url 'Core:category' %}"> Continue Shopping</a>
+            </div>
+            <div class="mb-2">
+                {% if cart.cartproduct_set.all %}
+                <a class="btn btn-outline-success btn-block" href="{% url 'Core:checkout' %}">CheckOut</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
